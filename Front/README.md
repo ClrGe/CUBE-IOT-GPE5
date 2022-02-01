@@ -10,3 +10,4 @@ Le projet comprend deux pages pour l'application web :
   
    - Une page login pour s'authentifier et passer sur la page d'accueil;
    - Une page d'accueil pour consulter les données des différentes sondes, ainsi que leurs géolocalisation
+   - Des pages d'erreur 401 / 403 / 404 / 501
