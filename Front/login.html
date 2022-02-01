@@ -1,21 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;400;700&display=swap" rel="stylesheet">
+  <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Station Météo | CUBES DI 21</title>
-  <link rel="stylesheet" href="style.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <title>Login | CUBES IOT</title>
+  <link rel="stylesheet" href="login.css">
 </head>
 <body>
   <div class="area" >
     
-    <h1 class="backtitle flick">STATION <br>MÉTÉO</h1>
-
     <ul class="circles">
       <li></li>
       <li></li>
@@ -31,18 +28,23 @@
       
       
   </div>  
-  <div class="hold"> 
-    
-    <div class="box1">
-          
-    </div>
-    <div class="box2">
 
+  <div class="login">
+    <h1 class="logintitle">
+      Welcome, <br>
+      <span class="light"> please log in</span><span class="flick"> |</span>
+    </h1>
+
+    <div class="loginmenu">
+      <input type="text" class="user" name="name" required
+       minlength="4" maxlength="20" size="10" placeholder="Username">
+
+       <input type="password" class="user" name="name" required
+       minlength="4" maxlength="20" size="10" placeholder="Password">
+
+       <button class="log">Login</button>
     </div>
   </div>
-
-  <button class="share">
-    <i class='fa fa-share'></i>
-  </button>
+  
 </body>
 </html>
