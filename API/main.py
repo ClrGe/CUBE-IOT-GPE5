@@ -7,10 +7,11 @@ import mysql.connector
 import json
 
 today = date.today()
+
 d1 = today.strftime("%d%m%Y")
 logging.basicConfig(filename='./logs/logs_'+d1+'.log', level=logging.INFO, format=f'%(asctime)s %(levelname)s : %(message)s')
 
-config = json.load(open("./config.json"))
+config = json.load(open("./configs.json"))
 
 mydb = mysql.connector.connect(
   host= config["host"],
