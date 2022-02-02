@@ -138,14 +138,18 @@
     </div>
 
     <script>
+      
       function toggle(divID) {
-    var x = document.getElementById(divID);
-    console.log(x.classList.contains("hidden"));
-    if (x.classList.contains("hidden") === false) {
-      x.classList.add("hidden");
-    } else {
-      x.classList.remove("hidden");
-    }
+      var x = document.getElementById(divID);
+      if (x.style.transform === "scale(0)" || x.style.transform === "") {
+        x.style.transform = "scale(100%)";
+        x.style.filter = "blur(0)";
+        x.style.backgroundColor = "rgba(0,0,0,0.4)";
+      } else {
+        x.style.transform = "scale(0)";
+        x.style.filter = "blur(100px)";
+        x.style.backgroundColor = "rgba(0,0,0,0.0)";
+      }
   }
     </script>
 
