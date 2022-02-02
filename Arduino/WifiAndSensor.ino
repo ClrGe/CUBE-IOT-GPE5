@@ -1,103 +1,91 @@
-// Time - Version: Latest
+/* AUTHORS: itsy-pandacrp, ClG-DI21
+ *
+ * Station météo Groupe 5
+ * 
+ * Pinout:
+ * LCD device:
+ * GND => GND
+ * VCC => 5V
+ * SDA => 11 (SDA)
+ * SCL => 12 (SCL)
+ * 
+ * DHT device:
+ * SOURCE => 3
+ * GND => GND
+ * VCC => 5V
+ * 
+*/
+#include <WiFiNINA.h>
 #include <Wire.h> 
-#include <TimeLib.h>
-#include <Adafruit_INA219.h>
-#include <Adafruit_BusIO_Register.h>
-#include <Adafruit_I2CDevice.h>
-#include <Adafruit_I2CRegister.h>
-#include <Adafruit_SPIDevice.h>
-#include <Adafruit_Sensor.h>
-#include <Adafruit_Si7021.h>
-#include <WiFiNINA_Generic.h>
-#include <LiquidCrystal.h>
+#include <LiquidCrystal_I2C.h>
+#include <DHT.h>
 
-float SI7021_hum;                                        // relative humidity Si7021
-float SI7021_temp;                                       // temperature Si7021
+#define DHTPIN 3
+#define DHTTYPE DHT11
 
-Adafruit_Si7021 sensor = Adafruit_Si7021();
+/* WIFI */
+char ssid[] = SECRET_SSID;
+char pass[] = SECRET_SSID;
+int status = WL_IDLE_STATUS;
 
-char ssid[] = SECRET_SSID; // your network SSID (name)
-char pass[] = SECRET_PASS; // your network password (use for WPA, or use as key for WEP)
-int status = WL_IDLE_STATUS;// the Wifi radio's status
+int counter = 0;
+const server = "https://api.groupe5.fr";
+float temp[5] = {0,0,0,0,0};
+float hum[5] = {0,0,0,0,0};
 
+WiFiSSLClient client;
+DHT dht(DHTPIN, DHTTYPE);
+LiquidCrystal_I2C lcd(0x3F,20,4);
 
 void setup() {
-  //Initialize serial and wait for port to open:
-  Serial.begin(9600);
-  while (!Serial);
-
-  // attempt to connect to Wifi network:
+  lcd.init();
+  lcd.backlight();
+  lcd.setCursor(0,0);
+  dht.begin();
   while (status != WL_CONNECTED) {
-    Serial.print("Attempting to connect to network: ");
+    lcd.print("Connecting to network");
     Serial.println(ssid);
-    // Connect to WPA/WPA2 network:
     status = WiFi.begin(ssid, pass);
-    // wait 10 seconds for connection:
     delay(10000);
   }
-  // you're connected now, so print out the data:
-  Serial.println("You're connected to the network");
-  Serial.println("----------------------------------------");
-  printData();
-  Serial.println("----------------------------------------");
-
-  Serial.println ();
-  Serial.println ();
-  Serial.println ("+ ----------------------------- +");
-
-
-  if (!sensor.begin ())
-  {
-    Serial.println ("Did not find Si7021 sensor!");
-    while (true);
-  }
-  delay(50);
+  lcd.clear();
+  lcd.setCursor(0,0);
+  lcd.print("Connected to network");
+  delay(1000);
+  lcd.clear();
+  lcd.setCursor(0,0);
+  lcd.print("IP: " + WiFi.localIP());
+  Serial.begin(9600);
 }
+
 
 void loop() {
-  // check the network connection once every 10 seconds:
-
-  delay(10000);
-
-  printData();
-
-  Serial.println("----------------------------------------");
-  double T;
-  SI7021_hum = sensor.readHumidity();                      // read Si7021 data
-  SI7021_temp = sensor.readTemperature();
-
-  Serial.print ("relative humidity:   ");
-  Serial.print (SI7021_hum, 0);
-  Serial.println (" %");
-
-  Serial.print ("Si7021 temperature:  ");
-  Serial.print (SI7021_temp, 1);
-  Serial.println (" *C");
-
-  Serial.println ();
-  delay (5000);
-
-}
-
-void printData() {
-
-  Serial.println("Board Information:");
-  // print your board's IP address:
-  IPAddress ip = WiFi.localIP();
-  Serial.print("IP Address: ");
-  Serial.println(ip);
-  Serial.println();
-  Serial.println("Network Information:");
-  Serial.print("SSID: ");
-  Serial.println(WiFi.SSID());
-  // print the received signal strength:
-  long rssi = WiFi.RSSI();
-  Serial.print("signal strength (RSSI):");
-  Serial.println(rssi);
-  byte encryption = WiFi.encryptionType();
-  Serial.print("Encryption Type:");
-  Serial.println(encryption, HEX);
-  Serial.println();
-
-
+  temp[4] = dht.readTemperature();
+  hum[4] = dht.readHumidity();
+  lcd.setCursor(0,1);
+  if ((counter/2) % 2){
+    lcd.setCursor(0,1);
+    lcd.print("TEMP: " + String(temp[4],1) + (char)223 + "C");
+  } else {
+    lcd.print("HUM : "+ String(hum[4],1) + "% ");
+  }
+  for (int i=1;i<5;i++){
+    temp[i-1]=temp[i];
+    hum[i-1] = hum[i];
+  }
+  counter++;
+  if (counter==4){
+    counter = 0;
+    float avgTemp = 0;
+    float avgHum  = 0;
+    for (int i=0; i<5;i++){
+      avgTemp += temp[i];
+      avgHum += hum[i];
+    }
+    Serial.println("Hum= " + String(avgHum/5,1));
+    Serial.println("Tem= " + String(avgTemp/5,1));
+    Serial.println(server+"/upload?temp="+String(avgTemp/5,1)+"&hum="+String(avgHum/5,1));
+    client.connect(server+"/upload?temp="+String(avgTemp/5,1)+"&hum="+String(avgHum/5,1), 5010);
+  }
+  delay(1000);
 }
