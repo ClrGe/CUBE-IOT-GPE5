@@ -9,9 +9,67 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Station Météo | CUBES DI 21</title>
   <link rel="stylesheet" href="style.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <script src="https://kit.fontawesome.com/b33f6de965.js" crossorigin="anonymous"></script>
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.12.0/css/ol.css" type="text/css">
+    <style>
+      .map {
+        height: 400px;
+        width: 100%;
+      }
+    </style>
+    <script src="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.12.0/build/ol.js"></script>
+
+  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+      google.charts.load('current', {'packages':['corechart']});
+      google.charts.setOnLoadCallback(drawChart);
+
+      function drawChart() {
+        var data = google.visualization.arrayToDataTable([
+          ['Date', 'Degrés'],
+          ['2004',  30],
+          ['2005',  20],
+          ['2006',  27],
+          ['2007',  23]
+        ]);
+
+        var options = {
+          title: 'Evolution de la température',
+          titleTextStyle: {
+            color: '#FFF',
+            font : 'Montserrat',
+            bold : true,
+          },
+          curveType: 'function',
+          legend: { position: 'bottom' ,textStyle: { color: '#FFF', fontName: 'Montserrat', fontSize: '12', bold : true}},
+          animation:{
+            duration: 1000,
+            easing: 'out'
+          },
+          lineWidth: 2,
+          areaOpacity: 0.24,
+          colors: ['#000'],
+          backgroundColor: 'none',
+          hAxis: {
+            titleTextStyle: {color: '#607d8b'}, 
+            gridlines: { count:0}, 
+            textStyle: { color: '#FFF', fontName: 'Montserrat', fontSize: '12', bold: false}
+          },
+          vAxis: {
+            gridlines: {color:'#FFF', count:4}, 
+            baselineColor: 'transparent',
+            textStyle: { color: '#FFF', fontName: 'Montserrat', fontSize: '12', bold: false},
+          },
+        };
+
+        var chart = new google.visualization.LineChart(document.getElementById('curve_chart'));
+
+        chart.draw(data, options);
+      }
+    </script>
 </head>
-<body>
+<body scroll="no" style="overflow: hidden">
   <div class="area" >
     
     <h1 class="backtitle flick">STATION <br>MÉTÉO</h1>
@@ -33,16 +91,100 @@
   </div>  
   <div class="hold"> 
     
-    <div class="box1">
-          
+    <div class="box1" id="">
+    <div class="stats" id="curve_chart"></div>          
     </div>
     <div class="box2">
+      <div id="map"></div>
+      <script type="text/javascript">
+        
+        var map = new ol.Map({
+          target: 'map',
+          layers: [
+            new ol.layer.Tile({
+              source: new ol.source.OSM()
+            }),
+            new ol.layer.Vector({
+              title: 'Buildings',
+              source: new ol.source.Vector({
+                url: '/data/layers/buildings.kml',
+                format: new ol.format.KML({
+                  extractStyles: false
+                })
+              }),
+              style: new ol.style.Style({
+                stroke: new ol.style.Stroke({color: 'red', width: 2})
+              })
+            })
+          ],
+          view: new ol.View({
+            center: ol.proj.fromLonLat([1.0754568074048432, 49.38301053675909]),
+            zoom: 14
+          })
+        });
+        var layer = new ol.layer.Vector({
+     source: new ol.source.Vector({
+         features: [
+             new ol.Feature({
+                 geometry: new ol.geom.Point(ol.proj.fromLonLat([1.0754568074048432, 49.38301053675909]))
+                    })
+                ]
+            })
+        });
+ map.addLayer(layer);
+      </script>
+    
+      </div>
+    </div>
 
+    <script>
+      function toggle(divID) {
+    var x = document.getElementById(divID);
+    console.log(x.classList.contains("hidden"));
+    if (x.classList.contains("hidden") === false) {
+      x.classList.add("hidden");
+    } else {
+      x.classList.remove("hidden");
+    }
+  }
+    </script>
+
+
+  <div class="widgets">
+    <button class="widget" onclick="toggle('table')">
+      <i class='fas fa-toolbox'></i>
+    </button>
+
+    <button class="widget" onclick="toggle('weather')">
+      <i class="fas fa-cloud-sun-rain"></i>
+    </button>
+
+    <button class="widget" onclick="toggle('share')">
+      <i class='fa fa-share'></i>
+    </button>
+
+  </div>
+
+  <div id="table" class="hidden">
+    <i class="fas fa-times" onclick="toggle('table')""></i>
+    <div class="content">
+      
     </div>
   </div>
 
-  <button class="share">
-    <i class='fa fa-share'></i>
-  </button>
+  <div id="weather" class="hidden">
+    <i class="fas fa-times" onclick="toggle('weather')""></i>
+    <div class="content">
+      
+    </div>
+  </div>
+
+  <div id="share" class="hidden">
+    <i class="fas fa-times" onclick="toggle('share')""></i>
+    <div class="content">
+      
+    </div>
+  </div>
+
 </body>
 </html>
