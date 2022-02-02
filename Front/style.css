@@ -258,7 +258,8 @@
   left: 0;
   background-color: rgba(0,0,0,0.4);
   z-index: 20;
-  transition: all .2s ease-in-out;
+  transform: scale(0%);
+  transition: all .4s ease;
 }
 
 #table i {
@@ -268,7 +269,7 @@
   margin-top: -10px;
   font-size: 4em;
   color: white;
-  transition: all .2s ease-in-out;
+  transition: all .4s ease;
 }
 
 
@@ -295,7 +296,8 @@
   left: 0;
   background-color: rgba(0,0,0,0.4);
   z-index: 20;
-  transition: all .2s ease-in-out;
+  transform: scale(0%);
+  transition: all .4s ease;
 }
 
 #weather i {
@@ -305,7 +307,7 @@
   margin-top: -10px;
   font-size: 4em;
   color: white;
-  transition: all .2s ease-in-out;
+  transition: all .4s ease;
 }
 
 
@@ -332,7 +334,8 @@
   left: 0;
   background-color: rgba(0,0,0,0.4);
   z-index: 20;
-  transition: all .2s ease-in-out;
+  transform: scale(0%);
+  transition: all .4s ease;
 }
 
 #share i {
@@ -342,7 +345,7 @@
   margin-top: -10px;
   font-size: 4em;
   color: white;
-  transition: all .2s ease-in-out;
+  transition: all .4s ease;
 }
 
 
@@ -364,7 +367,7 @@
 
 
 .hidden {
-  display :none;
+  transform: scale(100%);
 }
 
 @media screen and (min-width: 800px) {
