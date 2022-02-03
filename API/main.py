@@ -42,12 +42,10 @@ sensors_post_definition = sensor.model('sensors post informations', {
 })
 
 data_post_definition = dataa.model('data post informations', {
-    'recordDate': fields.DateTime(required=True),
     'sensorID': fields.Integer(required=True),
     'temp': fields.Float(required=True),
-    'humidity': fields.Float(required=True),
-    'sensor': fields.Integer(required=True)
-})
+    'humidity': fields.Float(required=True)
+    })
 
 sensors_put_definition = sensor.model('sensors put informations', {
     'latitude': fields.Float(),
@@ -56,11 +54,9 @@ sensors_put_definition = sensor.model('sensors put informations', {
 })
 
 data_put_definition = dataa.model('data put informations', {
-    'recordDate': fields.DateTime(),
     'sensorID': fields.Integer(),
     'temp': fields.Float(),
-    'humidity': fields.Float(),
-    'sensor': fields.Integer()
+    'humidity': fields.Float()
 })
 
 @app.route("/ui")
@@ -88,7 +84,7 @@ class sonde(Resource):
     @sensor.expect(sensors_put_definition)
     def put(self, id):
         """
-        Ajouter d'une ligne dans la table sensors
+        Modification d'une ligne dans la table sensors
         """
         if id:
             request_data = request.get_json()
@@ -176,9 +172,9 @@ class data(Resource):
         """
         request_data = request.get_json()
 
-        if request_data["recordDate"] != None and request_data["sensorID"] != None and request_data["temp"] != None and request_data["humidity"] != None and request_data["sensor"] != None:
-            mycursor.execute("INSERT INTO `data` (`recordDate`, `sensorID`, `temp`, `humidity`, `sensor`) VALUES ('" + str(request_data["recordDate"])+"', '"+str(
-                request_data["sensorID"])+"', '"+str(request_data["temp"])+"', '"+str(request_data["humidity"])+"', '"+str(request_data["sensor"]) + "');")
+        if request_data["sensorID"] != None and request_data["temp"] != None and request_data["humidity"] != None:
+            mycursor.execute("INSERT INTO `data` (`recordDate`, `sensorID`, `temp`, `humidity`) VALUES (CURRENT_TIMESTAMP(), '" +str(
+                request_data["sensorID"])+"', '"+str(request_data["temp"])+"', '"+str(request_data["humidity"])+"');")
             mydb.commit()
             return {"statut": "success"}, 200
         else:
@@ -204,13 +200,13 @@ class data(Resource):
     @dataa.expect(data_put_definition)
     def put(self, id):
         """
-        Ajouter d'une ligne dans la table data
+        Modification d'une ligne dans la table data
         """
         if id:
             request_data = request.get_json()
             at_change = ""
             for element in request_data:
-                if element == "recordDate" or element == "sensorID" or element == "temp" or element == "humidity" or element == "sensor":
+                if element == "recordDate" or element == "sensorID" or element == "temp" or element == "humidity":
                     if at_change == "":
                         at_change = at_change + element + \
                             "='" + str(request_data[element]) + "'"
