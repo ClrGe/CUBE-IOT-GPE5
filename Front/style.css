@@ -52,7 +52,7 @@
     background: -webkit-linear-gradient(to left, #8fc7fb, #4e91c8);  
     width: 100vw;
     height:100vh;
-    z-index: 1; 
+    z-index: 1;
     filter: blur(3px);
 }
 
@@ -285,7 +285,10 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%,-50%);
-  background-color: white;
+  background: linear-gradient(45deg,#d4eaff, #ffffff);
+  -webkit-box-shadow:0px 0px 183px 3px rgba(255,255,255,0.7);
+  -moz-box-shadow: 0px 0px 183px 3px rgba(255,255,255,0.7);
+  box-shadow: 0px 0px 183px 3px rgba(255,255,255,0.7);
 }
 
 #weather {
@@ -319,11 +322,18 @@
   height: 75vh;
   width: 80vw;
   border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%,-50%);
-  background-color: white;
+  background: linear-gradient(45deg,#d4eaff, #ffffff);
+  -webkit-box-shadow:0px 0px 183px 3px rgba(255,255,255,0.7);
+  -moz-box-shadow: 0px 0px 183px 3px rgba(255,255,255,0.7);
+  box-shadow: 0px 0px 183px 3px rgba(255,255,255,0.7);
 }
 
 #share {
@@ -338,7 +348,7 @@
   transition: all .4s ease;
 }
 
-#share i {
+#share .fa-times {
   position: absolute;
   top: 30px;
   right:30px;
@@ -349,7 +359,7 @@
 }
 
 
-#share i:hover {
+#share .fa-times:hover {
   transform: scale(.85) rotate(90deg);
 }
 
@@ -361,7 +371,62 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%,-50%);
-  background-color: white;
+  background: linear-gradient(45deg,#d4eaff, #ffffff);
+  overflow: hidden  ;
+  -webkit-box-shadow:0px 0px 183px 3px rgba(255,255,255,0.7);
+  -moz-box-shadow: 0px 0px 183px 3px rgba(255,255,255,0.7);
+  box-shadow: 0px 0px 183px 3px rgba(255,255,255,0.7);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
+
+#city {
+  color: #8fc7fb;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
+  text-align: center;
+}
+
+#detailsWeather, .sep {
+  color: black;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 400;
+  text-align: center;
+}
+
+.sep {
+  letter-spacing: 10px;
+}
+
+.credits {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  font-family: 'Montserrat', sans-serif;
+}
+
+.urlshare {
+  width: 90%;
+  height: 80%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+  display: flex;
+  justify-content: space-evenly;
+  flex-direction: column;
+  align-items: center;
+}
+
+.mail i {
+  padding: 12px;
+  border-radius: 50%;
+  border: 10px solid #4e91c8;
+  font-size: 3em;
+  color: #4e91c8;
+
 }
 
 
@@ -399,6 +464,10 @@
   }
   .widgets {
     flex-direction :unset;
+  }
+  #share .content {
+    height: 60vh ;
+    width: 80vw ;
   }
 }
 

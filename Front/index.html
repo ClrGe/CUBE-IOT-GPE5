@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta http-equiv="Access-Control-Allow-Origin" content="*">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;400;700&display=swap" rel="stylesheet">
@@ -21,7 +22,19 @@
     <script src="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.12.0/build/ol.js"></script>
 
   <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-    <script type="text/javascript">
+    <script type="text/javascript" crossorigin="anonymous">
+  
+      
+      var apiUrl = 'http://192.168.18.90:5010/api/v1/data';
+      fetch(apiUrl).then(response => {
+        return response.json();
+      }).then(data => {
+        console.log(data)
+      }).catch(err => {
+
+      });
+
+
       google.charts.load('current', {'packages':['corechart']});
       google.charts.setOnLoadCallback(drawChart);
 
@@ -154,6 +167,28 @@
     </script>
 
 
+  <script type="text/javascript">
+    var key = "79f6d9b456015830a44148d838673d46"
+
+    var apiUrl = 'http://api.openweathermap.org/data/2.5/weather?lat=49.38301053675909&lon=1.0754568074048432&appid=0e661d4c37d7f46f9393bc8bcabb0b7c';
+    fetch(apiUrl).then(response => {
+      return response.json();
+    }).then(data => {
+      document.getElementById('city').innerHTML = data.name
+      temperature = data.main.temp - (273.15)
+      document.getElementById('detailsWeather').innerHTML ="<b>Température</b> : " + Math.round(temperature * 10)/10 + "°C <br> <b>Humidité</b> : " + data.main.humidity + "%";
+      console.log(data);
+    }).catch(err => {
+      document.getElementById('contentWeather').innerHTML = "API Error"
+    });
+
+    function currentURL() {
+      console.log("URL : " + document.URL);
+      document.getElementById('URL').value = "<b>URL</b> : " + document.URL
+    }
+  </script>
+
+
   <div class="widgets">
     <button class="widget" onclick="toggle('table')">
       <i class='fas fa-toolbox'></i>
@@ -171,22 +206,32 @@
 
   <div id="table" class="hidden">
     <i class="fas fa-times" onclick="toggle('table')""></i>
-    <div class="content">
-      
+    <div class="content" id="contentTable">
+
     </div>
   </div>
 
   <div id="weather" class="hidden">
     <i class="fas fa-times" onclick="toggle('weather')""></i>
-    <div class="content">
-      
+    <div class="content" id="contentWeather">
+      <h1 id="city"></h1>
+      <p class="sep">~~~~~~~~~~~~~~~~~</p>
+      <p id="detailsWeather"></p>
+      <p class="credits">provided by OpenWeather's API</p>
     </div>
   </div>
 
   <div id="share" class="hidden">
-    <i class="fas fa-times" onclick="toggle('share')""></i>
-    <div class="content">
-      
+    <i class="fas fa-times" onclick="toggle('share');currentURL()""></i>
+    <div class="content" id="contentShare">
+      <div class="urlshare">
+        <div class="mail">
+          <h1>Envoyer par mail :</h1>
+          <i class="fa fa-envelope" aria-hidden="true"></i>
+          <h1>Copier l'URL</h1>
+          <i class="fa fa-link" aria-hidden="true"></i>
+        </div>
+      </div>
     </div>
   </div>
 
