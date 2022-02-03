@@ -29,11 +29,13 @@
       fetch(apiUrl).then(response => {
         return response.json();
       }).then(data => {
-        console.log(data)
+        for(var x=1; x<11;x++){
+          document.getElementById("table-data").innerHTML += "<tr><td>" + data[data.length - x][0] + "</td><td>" + data[data.length - x][1] + "</td><td>" + data[data.length - x][2] + "</td><td>" + data[data.length - x][3] + "</td><td>" + data[data.length - x][4] + "</td></tr>"
+        }
+        console.log(data[0])
       }).catch(err => {
 
       });
-
 
       google.charts.load('current', {'packages':['corechart']});
       google.charts.setOnLoadCallback(drawChart);
@@ -207,7 +209,37 @@
   <div id="table" class="hidden">
     <i class="fas fa-times" onclick="toggle('table')""></i>
     <div class="content" id="contentTable">
+      <style>
+        .demo {
+          border:1px solid #C0C0C0;
+          border-collapse:collapse;
+          padding:5px;
+        }
+        .demo th {
+          border:1px solid #C0C0C0;
+          padding:5px;
+          background:#F0F0F0;
+        }
+        .demo td {
+          border:1px solid #C0C0C0;
+          padding:5px;
+        }
+      </style>
+      <table class="demo">
+        <caption>Table 1</caption>
+        <thead>
+        <tr>
+          <th>Stats ID</th>
+          <th>Date</th>
+          <th>Capteur ID</th>
+          <th>Température</th>
+          <th>Taux d'Humidité</th>
+        </tr>
+        </thead>
+        <tbody id="table-data">
 
+        <tbody>
+      </table>
     </div>
   </div>
 
