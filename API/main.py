@@ -28,7 +28,7 @@ mycursor = mydb.cursor()
 
 app = Flask(__name__)
 
-api = Api(app=app, version="0.1", doc="/api", title="API station météo",
+api = Api(app=app, version="1.0", doc="/api", title="API station météo",
           description="API dédié au projet IOT cube", default="API", default_label='', validate=True)
 
 sensor = api.namespace("api/v1/sensors", description="CRUD de la table sensors")
@@ -64,23 +64,34 @@ def site():
     return render_template('index.html')
 
 
+@app.errorhandler(404)
+def not_found(e):
+    return render_template("404.html")
+
+
 @sensor.route("/<id>")
 class sonde(Resource):
-    @sensor.response(200, 'API sensors : Success')
+    @sensor.response(200, 'GET sensors : Success')
+    @sensor.response(400, 'GET sensors : Error')
     def get(self, id):
         """
         Recherche d'une ligne de la table sensors
         """
         if id:
-            mycursor.execute(
-                "SELECT * FROM sensors WHERE `sensorID` = '" + id + "';")
-            myresult = mycursor.fetchall()
-            print(myresult)
-            jso = json.dumps(myresult, indent=4, sort_keys=True, default=str)
-            return json.loads(jso), 200
+            try:
+                mycursor.execute(
+                    "SELECT * FROM sensors WHERE `sensorID` = '" + id + "';")
+                myresult = mycursor.fetchall()
+                print(myresult)
+                jso = json.dumps(myresult, indent=4, sort_keys=True, default=str)
+                return json.loads(jso), 200
+            except mysql.connector.Error as e:
+                return {"Error": e.msg}, 400
         else:
             return {"error": "missing arguments."}, 400
 
+    @sensor.response(200, 'PUT sensors : Success')
+    @sensor.response(400, 'PUT sensors : Error')
     @sensor.expect(sensors_put_definition)
     def put(self, id):
         """
@@ -91,6 +102,10 @@ class sonde(Resource):
             at_change = ""
             for element in request_data:
                 if element == "latitude" or element == "longitude" or element == "active":
+                    if element == "active" and request_data[element] == 1:
+                        request_data[element] = 1
+                    elif element == "active":
+                        request_data[element] = 0
                     if at_change == "":
                         at_change = at_change + element + \
                             "='" + str(request_data[element]) + "'"
@@ -99,39 +114,53 @@ class sonde(Resource):
                             "='" + str(request_data[element]) + "'"
 
             if at_change != "":
-                mycursor.execute("UPDATE sensors SET " +
-                                 at_change + " WHERE sensorID = " + id + ";")
-                mydb.commit()
-                return {"statut": "success"}, 200
+                try:
+                    mycursor.execute("UPDATE sensors SET " +
+                                    at_change + " WHERE sensorID = " + id + ";")
+                    mydb.commit()
+                    return {"statut": "success"}, 200
+                except mysql.connector.Error as e:
+                    return {"Error": e.msg}, 400
         else:
             return {"error": "missing arguments."}, 400
 
+    @sensor.response(200, 'DELETE sensors : Success')
+    @sensor.response(400, 'DELETE sensors : Error')
     def delete(self, id):
         """
         Suppression d'une ligne dans la table sensors
         """
         if id:
-            mycursor.execute(
-                "DELETE FROM `sensors` WHERE sensorID = " + id + ";")
-            mydb.commit()
-            return {"statut": "success"}, 200
+            try:
+                mycursor.execute(
+                    "DELETE FROM `sensors` WHERE sensorID = " + id + ";")
+                mydb.commit()
+                return {"statut": "success"}, 200
+            except mysql.connector.Error as e:
+                return {"Error": e.msg}, 400
         else:
             return {"error": "missing arguments."}, 400
 
 
 @sensor.route("")
 class sonde(Resource):
-    @sensor.response(200, 'API sensors : Success')
+    @sensor.response(200, 'GET sensors : Success')
+    @sensor.response(400, 'GET sensors : Error')
     def get(self):
         """
         Récupération de la table sensors
         """
-        mycursor.execute("SELECT * FROM sensors")
-        myresult = mycursor.fetchall()
+        try:
+            mycursor.execute("SELECT * FROM sensors")
+            myresult = mycursor.fetchall()
 
-        jso = json.dumps(myresult, indent=4, sort_keys=True, default=str)
-        return json.loads(jso), 200
-
+            jso = json.dumps(myresult, indent=4, sort_keys=True, default=str)
+            return json.loads(jso), 200
+        except mysql.connector.Error as e:
+            return {"Error": e.msg}, 400
+    
+    @sensor.response(200, 'POST sensors : Success')
+    @sensor.response(400, 'POST sensors : Error')
     @sensor.expect(sensors_post_definition)
     def post(self):
         """
@@ -140,31 +169,40 @@ class sonde(Resource):
         request_data = request.get_json()
 
         if request_data["latitude"] != None and request_data["longitude"] != None and request_data["active"] != None:
-            if request_data["active"] == TRUE:
+            if request_data["active"] == "true":
                 request_data["active"] = 1
             else:
                 request_data["active"] = 0
-            mycursor.execute("INSERT INTO `sensors` (`latitude`, `longitude`, `active`) VALUES ('" + str(
-                request_data["latitude"])+"', '"+str(request_data["longitude"])+"', '"+str(request_data["active"]) + "');")
-            mydb.commit()
-            return {"statut": "success"}, 200
+            try:
+                mycursor.execute("INSERT INTO `sensors` (`latitude`, `longitude`, `active`) VALUES ('" + str(
+                    request_data["latitude"])+"', '"+str(request_data["longitude"])+"', '"+str(request_data["active"]) + "');")
+                mydb.commit()
+                return {"statut": "success"}, 200
+            except mysql.connector.Error as e:
+                return {"Error": e.msg}, 400
         else:
             return {"error": "missing arguments."}, 400
 
 
 @dataa.route("")
 class data(Resource):
-    @dataa.response(200, 'API data : Success')
+    @sensor.response(200, 'GET data : Success')
+    @sensor.response(400, 'GET data : Error')
     def get(self):
         """
         Récupération de la table data
         """
-        mycursor.execute("SELECT * FROM data")
-        myresult = mycursor.fetchall()
+        try: 
+            mycursor.execute("SELECT * FROM data")
+            myresult = mycursor.fetchall()
+            
+            jso = json.dumps(myresult, indent=4, sort_keys=True, default=str)
+            return json.loads(jso), 200
+        except mysql.connector.Error as e:
+            return {"Error": e.msg}, 400
 
-        jso = json.dumps(myresult, indent=4, sort_keys=True, default=str)
-        return json.loads(jso), 200
-
+    @sensor.response(200, 'POST data : Success')
+    @sensor.response(400, 'POST data : Error')
     @dataa.expect(data_post_definition)
     def post(self):
         """
@@ -173,30 +211,39 @@ class data(Resource):
         request_data = request.get_json()
 
         if request_data["sensorID"] != None and request_data["temp"] != None and request_data["humidity"] != None:
-            mycursor.execute("INSERT INTO `data` (`recordDate`, `sensorID`, `temp`, `humidity`) VALUES (CURRENT_TIMESTAMP(), '" +str(
-                request_data["sensorID"])+"', '"+str(request_data["temp"])+"', '"+str(request_data["humidity"])+"');")
-            mydb.commit()
-            return {"statut": "success"}, 200
+            try:
+                mycursor.execute("INSERT INTO `data` (`recordDate`, `sensorID`, `temp`, `humidity`) VALUES (CURRENT_TIMESTAMP(), '" +str(
+                    request_data["sensorID"])+"', '"+str(request_data["temp"])+"', '"+str(request_data["humidity"])+"');")
+                mydb.commit()
+                return {"statut": "success"}, 200
+            except mysql.connector.Error as e:
+                return {"Error": e.msg}, 400
         else:
             return {"error": "missing arguments."}, 400
 
 @dataa.route("/<id>")
 class data(Resource):
-    @dataa.response(200, 'API sensors : Success')
+    @sensor.response(200, 'GET data : Success')
+    @sensor.response(400, 'GET data : Error')
     def get(self, id):
         """
         Recherche d'une ligne de la table data
         """
         if id:
-            mycursor.execute(
-                "SELECT * FROM data WHERE `ID` = '" + id + "';")
-            myresult = mycursor.fetchall()
-            
-            jso = json.dumps(myresult, indent=4, sort_keys=True, default=str)
-            return json.loads(jso), 200
+            try:
+                mycursor.execute(
+                    "SELECT * FROM data WHERE `ID` = '" + id + "';")
+                myresult = mycursor.fetchall()
+                
+                jso = json.dumps(myresult, indent=4, sort_keys=True, default=str)
+                return json.loads(jso), 200
+            except mysql.connector.Error as e:
+                return {"Error": e.msg}, 400
         else:
             return {"error": "missing arguments."}, 400
 
+    @sensor.response(200, 'PUT data : Success')
+    @sensor.response(400, 'PUT data : Error')
     @dataa.expect(data_put_definition)
     def put(self, id):
         """
@@ -215,21 +262,30 @@ class data(Resource):
                             "='" + str(request_data[element]) + "'"
 
             if at_change != "":
-                mycursor.execute("UPDATE data SET " +
-                                 at_change + " WHERE ID = " + id + ";")
-                mydb.commit()
-                return {"statut": "success"}, 200
+                try:
+                    mycursor.execute("UPDATE data SET " +
+                                    at_change + " WHERE ID = " + id + ";")
+                    mydb.commit()
+                    return {"statut": "success"}, 200
+                except mysql.connector.Error as e:
+                    return {"Error": e.msg}, 400
         else:
             return {"error": "missing arguments."}, 400
+    
+    @sensor.response(200, 'DELETE data : Success')
+    @sensor.response(400, 'DELETE data : Error')
     def delete(self, id):
         """
         Suppression d'une ligne dans la table data
         """
         if id:
-            mycursor.execute(
-                "DELETE FROM `data` WHERE ID = " + id + ";")
-            mydb.commit()
-            return {"statut": "success"}, 200
+            try:
+                mycursor.execute(
+                    "DELETE FROM `data` WHERE ID = " + id + ";")
+                mydb.commit()
+                return {"statut": "success"}, 200
+            except mysql.connector.Error as e:
+                return {"Error": e.msg}, 400
         else:
             return {"error": "missing arguments."}, 400
 
