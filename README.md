@@ -47,16 +47,26 @@ NGINX permet l'authentification des utilisateurs accédant au site grace au modu
 
 ## APIs
 
+L'API en python-flask permet d'effectuer des opérations CRUD sur la base de données MariaDB sur les tables 'data' et 'sensors'
+
+
 
 ## UI
 
-
-### Requis
-
-Pour le frontend, nous avons décidé d'utiliser les languages HTML5 et CSS3.
+Front-end de l'application :
 
 Le projet comprend deux pages pour l'application web :
   
    - Une page login pour s'authentifier et passer sur la page d'accueil;
    - Une page d'accueil pour consulter les données des différentes sondes, ainsi que leurs géolocalisation
    - Des pages d'erreur 401 / 403 / 404 / 501
+
+Deux zones sont sur la page d'accueil : un graphique à gauche et une carte interactive à droite.
+Les boutons au centre permettent de partager, d'accéder au données d'OpenWeatherMap pour la région et d'afficher le tableau des données.
+L'API d'OpenStreetMap permet de visualiser la position des capteurs sur une carte grâce aux données de position contenues en base de données.
+L'API d'OpenWeatherMap  permet de voir les données météo de la région pour 
+
+
+## BASE DE DONNÉES
+
+Une base  de données cubeIoT sur MariaDB recueille les données de température et d'humidité collectées par le DHT11 dans une table 'data' et des informations sur le capteur lui-même (identifiants, longitude, latitude ...) dans une table dédiées.
