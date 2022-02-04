@@ -50,6 +50,8 @@ LiquidCrystal pour le LCD
 ## SERVEUR 
 
 Raspberry Pi 3B avec Raspberry Pi OS LITE qui héberge l'application FLask ainsi que la base de données MariaDB.
+Le serveur dispose d'une adresse IP fixe pour  faciliter la connection (dhcpcp.conf).
+La connnection provient d'un partage 4G.
 NGINX permet l'authentification des utilisateurs accédant au site grace au module httpd-tools, les mots de passe sont hashés puis sotckés dans un fichier .httpwd
 
 ## APIs
