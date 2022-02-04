@@ -23,7 +23,7 @@ DROP TABLE IF EXISTS `data`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `data` (
   `ID` int(11) NOT NULL AUTO_INCREMENT,
-  `recordDate` date NOT NULL DEFAULT current_timestamp(),
+  `recordDate` datetime NOT NULL DEFAULT current_timestamp(),
   `sensorID` int(11) NOT NULL,
   `temp` float NOT NULL,
   `humidity` float NOT NULL,
