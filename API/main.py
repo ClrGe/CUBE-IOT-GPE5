@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 from pickle import TRUE
 from this import d
-from flask import Flask, request, render_template
+from flask import Flask, request, render_template, session, abort, flash, redirect
 from flask_restx import Resource, Api, fields, reqparse
 from datetime import date
 import logging
@@ -62,6 +62,19 @@ data_put_definition = dataa.model('data put informations', {
 @app.route("/ui")
 def site():
     return render_template('index.html')
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    form = LoginForm()
+    if form.validate_on_submit():
+        login_user(user)
+        flask.flash('Logged in successfully.')
+        next = flask.request.args.get('next')
+        if not is_safe_url(next):  
+            return flask.abort(400)
+
+        return flask.redirect(next or flask.url_for('index'))
+    return flask.render_template('login.html', form=form)
 
 
 @app.errorhandler(404)
