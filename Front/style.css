@@ -14,7 +14,7 @@
   left: 0;
   height: 100vh;
   width: 100vw;
-  z-index: 3;
+  z-index: 10;
   overflow: hidden;
 }
 
@@ -175,14 +175,9 @@
   opacity: .4;
   text-align: center;
   line-height: 80vh;
-  margin: 0;
-  padding: 0;
   position: absolute;
   top: 50%;
   left: 50%;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
   transform: translate(-50%,-50%);
   letter-spacing: 5rem;
   font-size: 2.5rem;
@@ -253,6 +248,9 @@
 #table {
   height: 100vh;
   width: 100vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   position: absolute;
   top: 0;
   left: 0;
@@ -420,16 +418,56 @@
   align-items: center;
 }
 
+.mail {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  flex-direction: column;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
+}
+
 .mail i {
+  margin: 15px;
   padding: 12px;
   border-radius: 50%;
   border: 10px solid #4e91c8;
   font-size: 3em;
   color: #4e91c8;
+  transition: all .3s ease;
+}
 
+.mail i:active{
+  color: black;
+  transform: scale(.90);
+  border-color: black;
+  -webkit-box-shadow: 0px 0px 30px 1px rgba(0,0,0,0.3);
+  -moz-box-shadow: 0px 0px 30px 1px rgba(0,0,0,0.3);
+  box-shadow: 0px 0px 30px 1px rgba(0,0,0,0.3);
 }
 
 
+.demo {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border:1px solid black;
+  border-collapse:collapse;
+  padding:5px;
+  font-family: 'Montserrat', sans-serif;
+}
+.demo th {
+  border:1px solid black;
+  padding:5px;
+  background:#8fc7fb;
+  font-weight: 700;
+}
+.demo td {
+  border:1px solid black;
+  padding:5px;
+  font-weight: 400;
+}
 
 .hidden {
   transform: scale(100%);
@@ -468,6 +506,18 @@
   #share .content {
     height: 60vh ;
     width: 80vw ;
+  }
+  #city {
+    font-size: 1.45em;
+  }
+  .sep {
+    letter-spacing: 5px;
+  }
+  .demo {
+    font-size: .7em;
+  }
+  .demo caption {
+    font-size: 1.3em;
   }
 }
 

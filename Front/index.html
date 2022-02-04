@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" id="capture">
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="Access-Control-Allow-Origin" content="*">
@@ -25,7 +25,7 @@
     <script type="text/javascript" crossorigin="anonymous">
   
       
-      var apiUrl = 'http://192.168.18.90:5010/api/v1/data';
+      var apiUrl = 'http://172.20.10.5:5010/api/v1/data';
       fetch(apiUrl).then(response => {
         return response.json();
       }).then(data => {
@@ -41,12 +41,16 @@
       google.charts.setOnLoadCallback(drawChart);
 
       function drawChart() {
+        var APIdata = fetch(apiUrl)
         var data = google.visualization.arrayToDataTable([
-          ['Date', 'Degrés'],
-          ['2004',  30],
-          ['2005',  20],
-          ['2006',  27],
-          ['2007',  23]
+          ['Date', 'Degrés', "Taux d'humidité"],
+          [APIdata[-1][1],  APIdata[1][3], APIdata[1][4]],
+          [APIdata[-2][1],  APIdata[1][3], APIdata[1][4]],
+          [APIdata[-3][1],  APIdata[1][3], APIdata[1][4]],
+          [APIdata[-4][1],  APIdata[1][3], APIdata[1][4]],
+          [APIdata[-5][1],  APIdata[1][3], APIdata[1][4]],
+          [APIdata[-6][1],  APIdata[1][3], APIdata[1][4]],
+          [APIdata[-7][1],  APIdata[1][3], APIdata[1][4]],
         ]);
 
         var options = {
@@ -184,12 +188,14 @@
       document.getElementById('contentWeather').innerHTML = "API Error"
     });
 
-    function currentURL() {
-      console.log("URL : " + document.URL);
-      document.getElementById('URL').value = "<b>URL</b> : " + document.URL
+
+    function copyURL() {
+      navigator.clipboard.writeText(window.location.href);
     }
   </script>
 
+  <!--SCREENSHOT-->
+  <script src="./html2canvas.min.js" defer></script>
 
   <div class="widgets">
     <button class="widget" onclick="toggle('table')">
@@ -210,23 +216,10 @@
     <i class="fas fa-times" onclick="toggle('table')""></i>
     <div class="content" id="contentTable">
       <style>
-        .demo {
-          border:1px solid #C0C0C0;
-          border-collapse:collapse;
-          padding:5px;
-        }
-        .demo th {
-          border:1px solid #C0C0C0;
-          padding:5px;
-          background:#F0F0F0;
-        }
-        .demo td {
-          border:1px solid #C0C0C0;
-          padding:5px;
-        }
+        
       </style>
       <table class="demo">
-        <caption>Table 1</caption>
+        <caption>Relevé des 10 dernières synchronisations de la station</caption>
         <thead>
         <tr>
           <th>Stats ID</th>
@@ -254,14 +247,14 @@
   </div>
 
   <div id="share" class="hidden">
-    <i class="fas fa-times" onclick="toggle('share');currentURL()""></i>
+    <i class="fas fa-times" onclick="toggle('share')""></i>
     <div class="content" id="contentShare">
       <div class="urlshare">
         <div class="mail">
-          <h1>Envoyer par mail :</h1>
-          <i class="fa fa-envelope" aria-hidden="true"></i>
-          <h1>Copier l'URL</h1>
-          <i class="fa fa-link" aria-hidden="true"></i>
+          <h3>Télécharger les données :</h3>
+          <i class="fa fa-download" aria-hidden="true" onclick="download()"></i>
+          <h3>Copier l'URL :</h3>
+          <i class="fa fa-link" aria-hidden="true" onclick="copyURL()"></i>
         </div>
       </div>
     </div>
