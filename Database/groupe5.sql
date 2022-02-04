@@ -15,32 +15,6 @@
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
---
--- Table structure for table `credentials`
---
-
-DROP TABLE IF EXISTS `credentials`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `credentials` (
-  `ID` int(11) NOT NULL AUTO_INCREMENT,
-  `username` int(11) NOT NULL,
-  `password` varchar(20) NOT NULL,
-  `crypto` int(11) NOT NULL,
-  PRIMARY KEY (`ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `credentials`
---
-
-LOCK TABLES `credentials` WRITE;
-/*!40000 ALTER TABLE `credentials` DISABLE KEYS */;
-/*!40000 ALTER TABLE `credentials` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `data`
 --
 
