@@ -69,4 +69,4 @@ L'API d'OpenWeatherMap  permet de voir les données météo de la région pour a
 
 ## BASE DE DONNÉES
 
-Une base  de données cubeIoT sur MariaDB recueille les données de température et d'humidité collectées par le DHT11 dans une table 'data' et des informations sur le capteur lui-même (identifiants, longitude, latitude ...) dans une table dédiées.
+Une base  de données cubeIoT sur MariaDB recueille les données de température et d'humidité collectées par le DHT11 dans une table 'data' et des informations sur le capteur lui-même (identifiants, longitude, latitude ...) dans une table dédiée.
