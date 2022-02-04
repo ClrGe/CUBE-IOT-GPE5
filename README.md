@@ -8,6 +8,7 @@ Dernier edit : 2022-02-01T13:59:10Z
 ---
 
 ### **SOMMAIRE**
+
 - GÉNÉRALITÉS
 
 - HARDWARE
@@ -39,6 +40,11 @@ Liste matériel :
  
  L'Arduino est programmé en C++ et flashé dans le logiciel Arduino IDE
 
+Librairies utilisées :
+
+WIFINA pour la connection au réseau
+ADAFRUIT_SENSOR et DHT pour le capteur DHT11
+LiquidCrystal pour le LCD
 
 ## SERVEUR 
 
