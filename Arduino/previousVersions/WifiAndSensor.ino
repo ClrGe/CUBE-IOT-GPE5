@@ -1,3 +1,6 @@
+// v1 code C++ pour l'arduino mkr1010
+// Fait fonctionner le wifi + le capteur dht11
+
 // HttpClient - Version: Latest 
 #include <HttpClient.h>
 #include <b64.h>
