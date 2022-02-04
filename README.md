@@ -86,6 +86,8 @@ Le cout de la version précédente (CLOUD) du projet était de 169 euros. Cette 
 - Raspberry Pi 3 - 30€
 - Arduino MKR wifi - 25€
 - Capteur DHT11 - < 2€
-- Matériel prototypage (cables, breadboard, alim...) - 10€
+- Écran LCD 1602 - < 5€
+- Micro SD 8Go - 6€
+- Matériel prototypage (cables, breadboard etc.) - 5€
 
-Les frais matériel seuls pour un prototype sont donc d'environ 67€
+Les frais matériel seuls pour un prototype sont donc d'environ 70€²
