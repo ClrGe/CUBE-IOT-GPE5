@@ -81,18 +81,14 @@
             textStyle: { color: '#FFF', fontName: 'Montserrat', fontSize: '12', bold: false},
           },
         };
-
         var chart = new google.visualization.LineChart(document.getElementById('curve_chart'));
-
         chart.draw(data, options);
       }
     </script>
 </head>
 <body scroll="no" style="overflow: hidden">
   <div class="area" >
-    
     <h1 class="backtitle flick">STATION <br>MÉTÉO</h1>
-
     <ul class="circles">
       <li></li>
       <li></li>
@@ -155,9 +151,7 @@
     
       </div>
     </div>
-
     <script>
-      
       function toggle(divID) {
       var x = document.getElementById(divID);
       if (x.style.transform === "scale(0)" || x.style.transform === "") {
