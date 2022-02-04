@@ -1,5 +1,5 @@
 /* Author : ClG - Date : 2022-02-01T09:32:23Z
-Gestion de la connexion de l'arduino à internet et de la récupération des données du capteur DHT11 */
+Gestion de la connexion de l'arduino à internet (interface wifi) et de la récupération des données du capteur DHT11 */
 
 
 // librairies pour la connection wifi
