@@ -21,6 +21,7 @@ Dernier edit : 2022-02-01T13:59:10Z
 
 - BASE DE DONNÉES
 
+- BUDGET
 
 ## GENERALITES
 
@@ -77,3 +78,14 @@ L'API d'OpenWeatherMap  permet de voir les données météo de la région pour a
 ## BASE DE DONNÉES
 
 Une base  de données cubeIoT sur MariaDB recueille les données de température et d'humidité collectées par le DHT11 dans une table 'data' et des informations sur le capteur lui-même (identifiants, longitude, latitude ...) dans une table dédiée.
+
+## BUDGET
+
+Le cout de la version précédente (CLOUD) du projet était de 169 euros. Cette version réduit les coûts de la manière suivante :
+
+- Raspberry Pi 3 - 30€
+- Arduino MKR wifi - 25€
+- Capteur DHT11 - < 2€
+- Matériel prototypage (cables, breadboard, alim...) - 10€
+
+Les frais matériel seuls pour un prototype sont donc d'environ 67€
