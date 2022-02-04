@@ -56,6 +56,8 @@ NGINX permet l'authentification des utilisateurs accédant au site grace au modu
 
 ## APIs
 
+Une documentation Swagger détaille le projet (url + /api)
+
 L'API en python-flask permet d'effectuer des opérations CRUD sur la base de données MariaDB sur les tables 'data' et 'sensors' de manière à pouvoir manipuler les données, ajouter ou supprimer des capteurs etc.
 Le front-end est servi grâce au module 'render_template'. On trouve l'HTML dans le dossier /template et le CSS dans le dossier  Static.
 
