@@ -64,7 +64,7 @@ Le projet comprend deux pages pour l'application web :
 Deux zones sont sur la page d'accueil : un graphique à gauche et une carte interactive à droite.
 Les boutons au centre permettent de partager, d'accéder au données d'OpenWeatherMap pour la région et d'afficher le tableau des données.
 L'API d'OpenStreetMap permet de visualiser la position des capteurs sur une carte grâce aux données de position contenues en base de données.
-L'API d'OpenWeatherMap  permet de voir les données météo de la région pour 
+L'API d'OpenWeatherMap  permet de voir les données météo de la région pour avoir un éléments de comparaison.
 
 
 ## BASE DE DONNÉES
