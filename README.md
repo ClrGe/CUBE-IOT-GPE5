@@ -64,6 +64,11 @@ python-flask
 render_template
 flask-restx
 mysql.connector 
+session
+flash
+flask-login
+
+Authenfication : class users pour se connecter 
 
 ## UI
 
